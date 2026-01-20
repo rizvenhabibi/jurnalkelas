@@ -36,8 +36,9 @@ async function sha256(text) {
 }
 
 async function login() {
-  const kelas = kelasInput.value.trim();
-  const pass = password.value.trim();
+  const kelas = document.getElementById("kelas").value.trim();
+  const pass  = document.getElementById("password").value.trim();
+
   const hash = await sha256(pass);
 
   const csv = await fetch(CSV_URL).then(r => r.text());
@@ -47,7 +48,9 @@ async function login() {
 
   rows.forEach(r => {
     const [k, h] = r.split(",");
-    if (k?.trim() === kelas && h?.trim() === hash) ok = true;
+    if (k?.trim() === kelas && h?.trim() === hash) {
+      ok = true;
+    }
   });
 
   if (ok) {
@@ -55,9 +58,10 @@ async function login() {
     sessionStorage.setItem("login_time", Date.now());
     location.href = "dashboard.html";
   } else {
-    error.innerText = "Login gagal";
+    document.getElementById("error").innerText = "Login gagal";
   }
 }
+
 </script>
 
 </body>
