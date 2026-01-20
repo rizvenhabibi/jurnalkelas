@@ -33,12 +33,12 @@ if (!kelas || Date.now() - loginTime > 30*60*1000) {
 
       <!-- INFO OTOMATIS -->
       <div class="mb-3">
-        <label class="form-label">Lokasi / Kelas</label>
+        <label class="form-label">Pembuat Laporan</label>
         <input class="form-control" id="lokasi" readonly>
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Nama Siswa</label>
+        <label class="form-label">Nama Guru Mapel</label>
         <input class="form-control" id="siswa" placeholder="Nama siswa">
       </div>
 
@@ -56,7 +56,7 @@ if (!kelas || Date.now() - loginTime > 30*60*1000) {
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Jam Mengajar</label>
+          <label class="form-label">Datang Jam</label>
           <input type="time" id="jam" class="form-control" required>
         </div>
 
@@ -71,12 +71,12 @@ if (!kelas || Date.now() - loginTime > 30*60*1000) {
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Keterangan</label>
+          <label class="form-label">Keterangan (Opsi ada tugas/tidak ada tugas)</label>
           <input id="keterangan" class="form-control">
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Catatan</label>
+          <label class="form-label">Kalau ada Tugas, apa ?</label>
           <textarea id="catatan" class="form-control" rows="3"></textarea>
         </div>
 
