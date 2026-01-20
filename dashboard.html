@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Dashboard Jurnal</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- PROTEKSI LOGIN -->
+<script>
+const kelas = sessionStorage.getItem("kelas");
+const loginTime = sessionStorage.getItem("login_time");
+if (!kelas || Date.now() - loginTime > 30*60*1000) {
+  sessionStorage.clear();
+  location.href = "login.html";
+}
+</script>
+
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand">Dashboard Jurnal</span>
+    <button class="btn btn-sm btn-outline-light" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container mt-4">
+
+  <div class="card shadow">
+    <div class="card-body">
+
+      <h5 class="mb-3">Form Jurnal Mengajar</h5>
+
+      <!-- INFO OTOMATIS -->
+      <div class="mb-3">
+        <label class="form-label">Lokasi / Kelas</label>
+        <input class="form-control" id="lokasi" readonly>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nama Siswa</label>
+        <input class="form-control" id="siswa" placeholder="Nama siswa">
+      </div>
+
+      <!-- FORM UTAMA -->
+      <form onsubmit="kirim(event)">
+
+        <div class="mb-3">
+          <label class="form-label">Mata Pelajaran</label>
+          <input id="mapel" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Materi</label>
+          <input id="materi" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Jam Mengajar</label>
+          <input type="time" id="jam" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Kehadiran</label>
+          <select id="kehadiran" class="form-select">
+            <option>Hadir</option>
+            <option>Izin</option>
+            <option>Sakit</option>
+            <option>Alpa</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Keterangan</label>
+          <input id="keterangan" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Catatan</label>
+          <textarea id="catatan" class="form-control" rows="3"></textarea>
+        </div>
+
+        <button class="btn btn-success w-100">Kirim Jurnal</button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ====== FIELD GOOGLE FORM ======
+const FIELD = {
+  lokasi: "entry.241207576",
+  siswa: "entry.707065644",
+  mapel: "entry.1115858565",
+  materi: "entry.1195793974",
+  jam: "entry.1723149386",
+  kehadiran: "entry.1451826028",
+  keterangan: "entry.1499591048",
+  catatan: "entry.2049388716"
+};
+
+// ====== FORM URL ======
+const FORM_URL =
+"https://docs.google.com/forms/d/e/1FAIpQLScpdId-IUbeVWP75iBIyDuPCFzf9iKthZD3Mbb4NdP9pYFwNg/formResponse";
+
+// auto isi
+document.getElementById("lokasi").value = kelas;
+document.getElementById("jam").value = new Date().toTimeString().slice(0,5);
+
+function kirim(e) {
+  e.preventDefault();
+
+  const data = new URLSearchParams();
+  data.append(FIELD.lokasi, lokasi.value);
+  data.append(FIELD.siswa, siswa.value);
+  data.append(FIELD.mapel, mapel.value);
+  data.append(FIELD.materi, materi.value);
+  data.append(FIELD.jam, jam.value);
+  data.append(FIELD.kehadiran, kehadiran.value);
+  data.append(FIELD.keterangan, keterangan.value);
+  data.append(FIELD.catatan, catatan.value);
+
+  fetch(FORM_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body: data
+  });
+
+  alert("Jurnal berhasil dikirim");
+  e.target.reset();
+  document.getElementById("jam").value = new Date().toTimeString().slice(0,5);
+}
+
+// logout
+function logout() {
+  sessionStorage.clear();
+  location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
